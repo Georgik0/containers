@@ -48,21 +48,30 @@ template<class RanIt>
                 typename iterator_traits<RanIt>::pointer,
                 typename iterator_traits<RanIt>::reference> {
         protected:
-            RanIt valueIt;
+            RanIt value_it;
         public:
             typedef reverse_iterator<RanIt> RvIter;
             typedef typename iterator_traits<RanIt>::difference_type difference_type;
             typedef typename iterator_traits<RanIt>::pointer pointer;
             typedef typename iterator_traits<RanIt>::reference reference;
             typedef RanIt iter_type;
-            reverse_iterator() : valueIt(0);
-            explicit reverse_iterator(RanIt it) : valueIt(it) {};
 
+            reverse_iterator() : value_it(0);
+            explicit reverse_iterator(RanIt it) : value_it(it) {}
+            template<class U>
+                    reverse_iterator(const reverse_iterator<U>& X) : value_it(X.base()) {}
+            RanIt base() const {return value_it;}
+
+            reference operator*() const {RanIt tmp = value_it; return *--tmp;}
+            pointer operator->() const {return *this}
+            iter_type& operator++() {--value_it; return *this;}
+            iter_type operator++(int) {iter_type tmp = *this; --value_it; return tmp;}
+            iter_type& operator--() {++value_it; return (*this)}
+            iter_type operator--(int) {iter_type tmp = *this; ++value_it; return tmp;}
+            bool Eq(const iter_type& Y) const {return (value_it == Y.value_it);}
+            iter_type& operator+=(difference_type N) {value_it -= N; return }
         };
 
-class iterator {
-
-};
 
 
 #endif //CONTAINERS_ITERATOR_HPP
