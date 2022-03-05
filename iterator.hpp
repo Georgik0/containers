@@ -1,6 +1,8 @@
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
 
+#include <iostream>
+
 namespace ft {
     template<class Category, class Type, class Dist = std::ptrdiff_t, class Ptr = Type *, class Ref = Type &>
     struct iterator {
@@ -29,7 +31,7 @@ namespace ft {
     struct iterator_traits<T *> {
         typedef random_access_iterator_tag iterator_category;
         typedef T value_type;
-        typedef ptrdiff_t difference_type;
+        typedef std::ptrdiff_t difference_type;
         typedef T *pointer;
         typedef T &reference;
     };

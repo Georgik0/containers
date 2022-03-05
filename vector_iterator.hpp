@@ -5,7 +5,7 @@
 
 namespace ft {
     template <class Type, class Ptr, class Ref>
-    class vector_iterator : public iterator<random_access_iterator_tag, T> {
+    class vector_iterator : public iterator<random_access_iterator_tag, Type> {
     public:
         typedef Type                            value_type;
         typedef Ptr                             pointer;

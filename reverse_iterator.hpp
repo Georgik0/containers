@@ -68,7 +68,7 @@ namespace ft
             return *this;
         }
 
-        iter_type operator+(difference_type N) { return reverse_iterator<Iter>(base() - N); }
+        RvIter operator+(difference_type N) { return reverse_iterator<Iter>(base() - N); }
 
         iter_type &operator--() {
             ++value_it;
@@ -86,7 +86,7 @@ namespace ft
             return *this;
         }
 
-        iter_type operator-(difference_type N) { return reverse_iterator<Iter>(base() + N); }
+        RvIter operator-(difference_type N) { return reverse_iterator<Iter>(base() + N); }
     };
 
     template<class Iterator1, class Iterator2>
@@ -127,6 +127,11 @@ namespace ft
     template<class Iter>
     reverse_iterator<Iter> operator-(typename reverse_iterator<Iter>::difference_type N, const reverse_iterator<Iter> &it) {
         return reverse_iterator<Iter>(it.base() + N);
+    }
+
+    template<class T>
+    reverse_iterator<T> rend(T arg) {
+        return reverse_iterator<T>(arg);
     }
 
 }
