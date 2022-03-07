@@ -16,7 +16,7 @@ namespace ft {
 
         vector_iterator() : _ptr(0) {}
         explicit vector_iterator(pointer ptr) : _ptr(ptr) {}
-        vector_iterator(const v_iter &iter) : _ptr(iter.getPtr() ) {}
+        vector_iterator(const v_iter &iter) : _ptr(iter._ptr) {}
         virtual ~vector_iterator() {}
 
         v_iter     &operator=(const v_iter &iter) {
@@ -49,7 +49,7 @@ namespace ft {
         bool    operator>=(v_iter const &iter) { return _ptr >= iter._ptr; }
 
 
-        pointer     base() { return _ptr; }
+        pointer     base() const { return _ptr; }
 
     private:
         pointer     _ptr;

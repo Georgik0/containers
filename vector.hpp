@@ -33,6 +33,11 @@ namespace   ft {
         pointer         _ptr;
         size_type       _cap;
         size_type       _len;
+
+        void increase_cap(size_type count) {
+            while (_len + count > _cap)
+                _cap *= 2;
+        }
     public:
         explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _len(0), _cap(0), _ptr(0) {}
 
@@ -56,6 +61,7 @@ namespace   ft {
                 value = last;
             }
             _cap = _len;
+            _ptr = _alloc.allocate(_cap);
             for (size_type i = 0; i < _len; i++) {
                 _alloc.construct(_ptr + i, *(value + i));
             }
@@ -69,10 +75,7 @@ namespace   ft {
         }
 
         ~vector() {
-            for (size_type i = 0; i < _len; i++) {
-                if (_ptr + i)
-                    _alloc.destroy(_ptr + i);
-            }
+            clear();
             _alloc.deallocate(_ptr, _cap);
             _ptr = NULL;
         };
@@ -96,17 +99,23 @@ namespace   ft {
             return *(_ptr + pos);
         }
 
-        const_reference at const (size_type pos) {
+        const_reference at (size_type pos) const {
             if (pos >= _len)
                 throw std::out_of_range("Out of range");
             return *(_ptr + pos);
         }
 
         reference   operator[](size_type pos) { return *(_ptr + pos); }
-
         const_reference operator[](size_type pos) const { return *(_ptr + pos); }
 
+        reference   front() { return *_ptr; }
+        const_reference   front() const { return *_ptr; }
 
+        reference   back() { return *(_ptr + _len - 1); }
+        const_reference   back() const { return *(_ptr + _len - 1); }
+
+        pointer data() { return _ptr; }
+        const_pointer data() const { return _ptr; }
 
 
         // ------------------- Iterators ------------------- //
@@ -130,11 +139,107 @@ namespace   ft {
         void    reserve(size_type new_cap) {
             if (new_cap <= _cap)
                 return;
-            size_type offset = new_cap - _cap;
-            _alloc.allocate(offset, _ptr + offset);
+            pointer ptr_new = _alloc.allocate(new_cap);
+            for (size_t i = 0; i < _len; i++) {
+                _alloc.construct(ptr_new + i, _ptr[i]);
+            }
+            size_type len_tmp = _len;
+            clear();
+            _alloc.deallocate(_ptr, _cap);
+            _len = len_tmp;
+            _cap = new_cap;
+            _ptr = ptr_new;
         }
 
         size_type   capacity() const { return _cap; }
+
+        // ------------------- Modifiers ------------------- //
+        void    clear() {
+            for (size_type i = 0; i < _len; i++) {
+                if (_ptr + i)
+                    _alloc.destroy(_ptr + i);
+            }
+            _len = 0;
+        }
+
+        void    push_back(const_reference value) {
+            if (_len >= _cap) {
+                reserve(_cap * 2 + (_cap == 0));
+            }
+            // std::cout << "\ntest bushback\n" << "_len = " << _len << "\n_cap = " << _cap << "\n";
+            _alloc.construct(_ptr + _len, value);
+            _len++;
+        }
+
+        iterator    insert(iterator pos, const_reference value) {
+            insert(pos, 1, value);
+            return pos;
+        }
+
+        void    insert(iterator pos, size_type count, const_reference value) {
+            size_type   id = pos - begin();
+
+            if (_len + count > _cap) {
+                increase_cap(count);
+
+                pointer ptr_new = _alloc.allocate(_cap);
+
+                for (size_t i = 0; i < id; i++) {
+                    _alloc.construct(ptr_new + i, _ptr[i]);
+                }
+                for (size_t i = 0; i < count; i++) {
+                    _alloc.construct(ptr_new + id + i, value);
+                }
+                for (size_t i = id + count, j = id; i < _len + count; i++, j++) {
+                    _alloc.construct(ptr_new + i, _ptr[j]);
+                }
+                clear();
+                _alloc.deallocate(_ptr, _cap);
+                _ptr = ptr_new;
+            } else {
+                for (size_t i = _len - 1; i >= id; i--) {
+                    _alloc.construct(_ptr + i + count, _ptr[i]);
+                }
+                for (size_t i = 0; i < count; i++) {
+                    _alloc.construct(_ptr + id + i, value);
+                }
+            }
+            _len += count;
+        }
+
+        template< class InputIt >
+        void    insert(iterator pos, InputIt first, InputIt last) {
+            size_type   count = last - first;
+            size_type   id = pos - begin();
+
+            if (_len + count > _cap) {
+                increase_cap(count);
+
+                pointer ptr_new = _alloc.allocate(_cap);
+
+                for (size_t i = 0; i < id; i++) {
+                    _alloc.construct(ptr_new + i, _ptr[i]);
+                }
+                for (size_t i = 0; i < count; i++) {
+                    _alloc.construct(ptr_new + id + i, *(first + i));
+                }
+                for (size_t i = id + count, j = id; i < _len + count; i++, j++) {
+                    _alloc.construct(ptr_new + i, _ptr[j]);
+                }
+                clear();
+                _alloc.deallocate(_ptr, _cap);
+                _ptr = ptr_new;
+            } else {
+                for (size_t i = _len - 1; i >= id; i--) {
+                    _alloc.construct(_ptr + i + count, _ptr[i]);
+                }
+                for (size_t i = 0; i < count; i++) {
+                    _alloc.construct(_ptr + id + i, *(first + i));
+                }
+            }
+            _len += count;
+        }
+
     };
 }
 
