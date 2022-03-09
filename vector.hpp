@@ -35,6 +35,10 @@ namespace   ft {
         size_type       _len;
 
         void increase_cap(size_type count) {
+            if (count == 0)
+                return;
+            if (_cap == 0)
+                _cap++;
             while (_len + count > _cap)
                 _cap *= 2;
         }
@@ -90,6 +94,31 @@ namespace   ft {
             for (size_type i = 0; i < _len; i++) {
                 _alloc.construct(_ptr + i, v[i]);
             }
+        }
+
+        allocator_type  get_allocator() { return _alloc; }
+
+        void    assign(size_type count, const_reference value) {
+            if (count <= 0)
+                return;
+            clear();
+            reserve(count);
+            _len = count;
+            for (size_type i = 0; i < count; i++)
+                _alloc.construct(_ptr + i, value);
+        }
+
+        template <class InputIt>
+        void    assign(InputIt first, InputIt last, 
+                typename std::enable_if<!std::is_integral<InputIt>::value>::type* = 0) {
+            size_type   count = last - first;
+            if (count <= 0)
+                return;
+            clear();
+            reserve(count);
+            _len = count;
+            for (size_type i = 0; first <= last; i++, first++)
+                _alloc.construct(_ptr + i, *first);
         }
 
         // ------------------- Element access ------------------- //
@@ -166,9 +195,15 @@ namespace   ft {
             if (_len >= _cap) {
                 reserve(_cap * 2 + (_cap == 0));
             }
-            // std::cout << "\ntest bushback\n" << "_len = " << _len << "\n_cap = " << _cap << "\n";
             _alloc.construct(_ptr + _len, value);
             _len++;
+        }
+
+        void    pop_back() {
+            if (_len == 0)
+                return;
+            _alloc.destroy(_ptr + _len - 1);
+            _len--;
         }
 
         iterator    insert(iterator pos, const_reference value) {
@@ -178,6 +213,7 @@ namespace   ft {
 
         void    insert(iterator pos, size_type count, const_reference value) {
             size_type   id = pos - begin();
+            size_type   tmp_len = _len;
 
             if (_len + count > _cap) {
                 increase_cap(count);
@@ -204,11 +240,12 @@ namespace   ft {
                     _alloc.construct(_ptr + id + i, value);
                 }
             }
-            _len += count;
+            _len = tmp_len + count;
         }
 
         template< class InputIt >
-        void    insert(iterator pos, InputIt first, InputIt last) {
+        void    insert(iterator pos, InputIt first, InputIt last,
+                typename std::enable_if<!std::is_integral<InputIt>::value>::type* = 0) {
             size_type   count = last - first;
             size_type   id = pos - begin();
 
@@ -217,30 +254,107 @@ namespace   ft {
 
                 pointer ptr_new = _alloc.allocate(_cap);
 
-                for (size_t i = 0; i < id; i++) {
+                for (size_type i = 0; i < id; i++) {
                     _alloc.construct(ptr_new + i, _ptr[i]);
                 }
-                for (size_t i = 0; i < count; i++) {
+                for (size_type i = 0; i < count; i++) {
                     _alloc.construct(ptr_new + id + i, *(first + i));
                 }
-                for (size_t i = id + count, j = id; i < _len + count; i++, j++) {
+                for (size_type i = id + count, j = id; i < _len + count; i++, j++) {
                     _alloc.construct(ptr_new + i, _ptr[j]);
                 }
                 clear();
                 _alloc.deallocate(_ptr, _cap);
                 _ptr = ptr_new;
             } else {
-                for (size_t i = _len - 1; i >= id; i--) {
+                for (size_type i = _len - 1; i >= id; i--) {
                     _alloc.construct(_ptr + i + count, _ptr[i]);
                 }
-                for (size_t i = 0; i < count; i++) {
+                for (size_type i = 0; i < count; i++) {
                     _alloc.construct(_ptr + id + i, *(first + i));
                 }
             }
             _len += count;
         }
 
+        iterator    erase(iterator pos) {
+            size_type   id = pos - begin();
+            pointer ptr_new = _alloc.allocate(_len - 1);
+            _cap = _len - 1;
+            for (size_type i = 0; i < id; i++) {
+                _alloc.construct(ptr_new + i, *(_ptr + i));
+            }
+            for (size_type i = id + 1; i < _len; i++) {
+                _alloc.construct(ptr_new + i - 1, _ptr[i]);
+            }
+            clear();
+            _alloc.deallocate(_ptr, _cap + 1);
+            _len = _cap;
+            _ptr = ptr_new;
+            return iterator(_ptr + id);
+        }
+
+        iterator    erase(iterator first, iterator last) {
+            size_type   count = last - first;
+            if (count <= 0)
+                return  last;
+            _cap = _len - count;
+
+            pointer ptr_new = _alloc.allocate(_cap);
+            size_type   id_first = first - begin(), id_last = last - begin();
+
+            for (size_type i = 0; i < id_first; i++) {
+                _alloc.construct(ptr_new + i, *(_ptr + i));
+            }
+            for (size_type i = id_last, j = id_first; i < _len; i++, j++) {
+                _alloc.construct(ptr_new + j, *(_ptr + i));
+            }
+            clear();
+            _alloc.deallocate(_ptr, _cap + 1);
+            _len = _cap;
+            _ptr = ptr_new;
+            return iterator(_ptr + id_first);
+        }
+
+        void    swap(vector &v) {
+            std::swap(_alloc, v._alloc);
+            std::swap(_ptr, v._ptr);
+            std::swap(_len, v._len);
+            std::swap(_cap, v._cap);
+        }
+
+        void    resize(size_type count) {
+            if (_len > count)
+                erase(begin() + count, end());
+            if (_len < count)
+                insert(begin() + _len, count - _len, value_type());
+        }
     };
+
+    template<class T, class alloc>
+    bool    operator==(const vector<T, alloc> &lhs, const vector<T, alloc> &rhs) {
+        if  (lhs.capacity() != rhs.capacity())
+            return false;
+        if  (lhs.size() != rhs.size())
+            return false;
+        for (size_t i = 0; i < lhs.size(); i++) {
+            if (lhs[i] != rhs[i])
+                return false;
+        }
+        return true;
+    }
+
+    template<class T, class alloc>
+    bool    operator!=(const vector<T, alloc> &lhs, const vector<T, alloc> &rhs) {
+        return !(lhs == rhs);
+    }
+
+    template<class T, class alloc>
+    bool    operator<(const vector<T, alloc> &lhs, const vector<T, alloc> &rhs) {
+        
+    }
+
+    
 }
 
 #endif //VECTOR_HPP

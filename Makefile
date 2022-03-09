@@ -7,7 +7,7 @@ objdir = objs
 obj_test = ${src_test:%.cpp=${objdir}/%.o}
 deps_test = ${obj_test:%.o=%.d}
 
-cc = clang++
+cc = clang++ -g
 flags = -std=c++11
 
 $(test): $(obj_test)
