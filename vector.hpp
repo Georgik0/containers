@@ -3,6 +3,7 @@
 
 #include "vector_iterator.hpp"
 #include "reverse_iterator.hpp"
+#include "utils.hpp"
 #include <memory>
 #include <iostream>
 #include <vector>
@@ -56,7 +57,7 @@ namespace   ft {
         template <class InputIt>
         vector(InputIt first, InputIt last,
          const allocator_type &alloc = allocator_type(),
-         typename std::enable_if<!std::is_integral<InputIt>::value>::type* = 0) :
+         typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0) :
          _alloc(alloc), _ptr(0), _len(0), _cap(0)  {
             InputIt value = first;
             _len = last - first;
@@ -110,7 +111,7 @@ namespace   ft {
 
         template <class InputIt>
         void    assign(InputIt first, InputIt last, 
-                typename std::enable_if<!std::is_integral<InputIt>::value>::type* = 0) {
+                typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0) {
             size_type   count = last - first;
             if (count <= 0)
                 return;
@@ -245,7 +246,7 @@ namespace   ft {
 
         template< class InputIt >
         void    insert(iterator pos, InputIt first, InputIt last,
-                typename std::enable_if<!std::is_integral<InputIt>::value>::type* = 0) {
+                typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0) {
             size_type   count = last - first;
             size_type   id = pos - begin();
 
@@ -351,10 +352,28 @@ namespace   ft {
 
     template<class T, class alloc>
     bool    operator<(const vector<T, alloc> &lhs, const vector<T, alloc> &rhs) {
-        
+        return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
 
-    
+    template<class T, class alloc>
+    bool    operator>(const vector<T, alloc> &lhs, const vector<T, alloc> &rhs) {
+        return !(lhs <= rhs);
+    }
+
+    template<class T, class alloc>
+    bool    operator<=(const vector<T, alloc> &lhs, const vector<T, alloc> &rhs) {
+        return lhs < rhs || lhs == rhs;
+    }
+
+    template<class T, class alloc>
+    bool    operator>=(const vector<T, alloc> &lhs, const vector<T, alloc> &rhs) {
+        return !(lhs < rhs);
+    }
+
+    template<class T, class alloc>
+    void    swap(const vector<T, alloc> &lhs, const vector<T, alloc> &rhs) {
+        lhs.swap(rhs);
+    }
 }
 
 #endif //VECTOR_HPP

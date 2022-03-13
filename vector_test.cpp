@@ -241,8 +241,30 @@ void    test_element_access() {
     std::cout << "\n\x1b[1;32melement access\x1b[0m\n";
 
     {
-        version::vector<int>    a(10, 1);
-        
+        version::vector<int>    a(10);
+        for (size_t i = 0; i < 10; i++)
+            a[i] = i;
+        std::cout << "Info: a\n";
+        info_vector(a);
+        view_vector(a);
+        int n = a.at(0);
+        std::cout << "at(0) = " << n << "\n";
+        try {
+            n = a.at(-1);
+            std::cout << "at(-1) = " << n << "\n";
+        }
+        catch(const std::exception& e) {
+            std::cerr << e.what() << '\n';
+        }
+        try {
+            n = a.at(10);
+            std::cout << "at(10) = " << n << "\n";
+        }
+        catch(const std::exception& e) {
+            std::cerr << e.what() << '\n';
+        }
+        n = a.at(5);
+        std::cout << "at(5) = " << n << "\n";
     }
 }
 
@@ -305,10 +327,67 @@ void    test_non_member_functions() {
         std::cout << "a == b    " << (a == b ? "true" : "false") << "\n\n";
     }
 
+    {
+        std::cout << "#5\n";
+        version::vector<int>    a(10, 1);
+        version::vector<int>    b(10, 2);
+
+        std::cout << "Info: a\n";
+        info_vector(a);
+        view_vector(a);
+        std::cout << "Info: b\n";
+        info_vector(b);
+        view_vector(b);
+        std::cout << "a < b    " << (a < b ? "true" : "false") << "\n\n";
+    }
+
+    {
+        std::cout << "#6\n";
+        version::vector<int>    a(10, 1);
+        version::vector<int>    b(10, 1);
+
+        std::cout << "Info: a\n";
+        info_vector(a);
+        view_vector(a);
+        std::cout << "Info: b\n";
+        info_vector(b);
+        view_vector(b);
+        std::cout << "a <= b    " << (a <= b ? "true" : "false") << "\n\n";
+    }
+
+    {
+        std::cout << "#7\n";
+        version::vector<int>    a(10, 1);
+        version::vector<int>    b(5, 1);
+
+        std::cout << "Info: a\n";
+        info_vector(a);
+        view_vector(a);
+        std::cout << "Info: b\n";
+        info_vector(b);
+        view_vector(b);
+        std::cout << "a <= b    " << (a <= b ? "true" : "false") << "\n\n";
+    }
+
+    {
+        std::cout << "#8\n";
+        version::vector<int>    a(5, 1);
+        version::vector<int>    b(10, 1);
+
+        std::cout << "Info: a\n";
+        info_vector(a);
+        view_vector(a);
+        std::cout << "Info: b\n";
+        info_vector(b);
+        view_vector(b);
+        std::cout << "a <= b    " << (a <= b ? "true" : "false") << "\n\n";
+    }
+
 }
 
 void vector_test() {
     test_constructors();
     test_modifiers();
     test_non_member_functions();
+    test_element_access();
 }
