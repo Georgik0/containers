@@ -1,9 +1,9 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
-#include "vector_iterator.hpp"
-#include "reverse_iterator.hpp"
-#include "utils.hpp"
+#include "../iterator/vector_iterator.hpp"
+#include "../iterator/reverse_iterator.hpp"
+#include "../utils/utils.hpp"
 #include <memory>
 #include <iostream>
 #include <vector>
