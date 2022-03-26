@@ -34,7 +34,17 @@ namespace   ft {
 
             reference   operator*() const { return *_ptr->value; }
             pointer     operator->() const { return _ptr->value; }
-            rb_iter     &operator++() {  }
+
+            rb_iter     &operator++() {
+                if (_ptr->right != NULL) {
+                    _ptr = _ptr->right;
+                    while (_ptr->left)
+                        _ptr = _ptr->left;
+                } else {
+                    
+                }
+                
+            }
     };
 
 }
