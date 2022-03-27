@@ -1,8 +1,8 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-#define BLACK   true
-#define RED     false
+#define BLACK   false
+#define RED     true
 
 namespace   ft {
 
@@ -17,7 +17,7 @@ namespace   ft {
         node(Type *val) {
             value = val;
             left = right = parent = NULL;
-            color = true;
+            color = BLACK;
         }
     };
 }

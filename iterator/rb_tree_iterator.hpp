@@ -41,11 +41,56 @@ namespace   ft {
                     while (_ptr->left)
                         _ptr = _ptr->left;
                 } else {
-                    
+                    node<value_type>    *new_ptr = _ptr->parent, *tmp = _ptr;
+                    while (new_ptr && new_ptr->right == tmp) {
+                        tmp = new_ptr;
+                        new_ptr = new_ptr->parent;
+                    }
+                    if (new_ptr != NULL)
+                        _ptr = new_ptr;
                 }
-                
+                return *this;
+            }
+
+            rb_iter     operator++(int) {
+                rb_iter     tmp_it(*this);
+                ++(*this);
+                return  tmp_it;
+            }
+
+            rb_iter     &operator--() {
+                if (_ptr->left) {
+                    _ptr = _ptr->left;
+                    while (_ptr->right)
+                        _ptr = _ptr->right;
+                } else {
+                    node<value_type>    *new_ptr = _ptr->parent, *tmp = _ptr;
+                    while (new_ptr && new_ptr->left == tmp) {
+                        tmp = new_ptr;
+                        new_ptr = new_ptr->parent;
+                    }
+                    if (new_ptr != NULL)
+                        _ptr = new_ptr;
+                }
+                return *this;
+            }
+
+            rb_iter     operator--(int) {
+                rb_iter     tmp_it(*this);
+                --(*this);
+                return  tmp_it;
             }
     };
+
+    template<class Type, class Ptr, class Ref>
+    bool    operator==(rb_tree_iterator<Type, Ptr, Ref> const &lIt, rb_tree_iterator<Type, Ptr, Ref> const &rIt) {
+        return  lIt.base() == rIt.base();
+    }
+
+    template<class Type, class Ptr, class Ref>
+    bool    operator!=(rb_tree_iterator<Type, Ptr, Ref> const &lIt, rb_tree_iterator<Type, Ptr, Ref> const &rIt) {
+        return  lIt.base() != rIt.base();
+    }
 
 }
 
