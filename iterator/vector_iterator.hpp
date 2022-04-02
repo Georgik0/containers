@@ -5,7 +5,7 @@
 
 namespace ft {
     template <class Type, class Ptr, class Ref>
-    class vector_iterator : public iterator<random_access_iterator_tag, Type> {
+    class vector_iterator {
     public:
         typedef Type                            value_type;
         typedef Ptr                             pointer;
@@ -17,7 +17,7 @@ namespace ft {
         vector_iterator() : _ptr(0) {}
         explicit vector_iterator(pointer ptr) : _ptr(ptr) {}
         vector_iterator(const v_iter &iter) : _ptr(iter._ptr) {}
-        virtual ~vector_iterator() {}
+        ~vector_iterator() {}
 
         v_iter     &operator=(const v_iter &iter) {
             if (this == &iter)

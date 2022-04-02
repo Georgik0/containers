@@ -7,7 +7,7 @@
 namespace   ft {
     
     template<class Type, class Ptr, class Ref>
-    class rb_tree_iterator : public iterator<bidirectional_iterator_tag, Type> {
+    class rb_tree_iterator {
         public:
             typedef Type                                value_type;
             typedef Ptr                                 pointer;
@@ -17,13 +17,23 @@ namespace   ft {
             typedef rb_tree_iterator<Type, Ptr, Ref>    rb_iter;
         private:
             node<value_type>                            *_ptr;
+
+            bool    _is_not_nil_node(node<value_type> *n) {
+                return !_is_nil_node(n);
+            }
+
+            bool    _is_nil_node(node<value_type> *n) {
+                if (n->value == NULL && n->right == NULL && n->left == NULL)
+                    return true;
+                return false;
+            }
         public:
             rb_tree_iterator() : _ptr(NULL) {}
-            virtual ~rb_tree_iterator() {}
+            ~rb_tree_iterator() {}
             explicit    rb_tree_iterator(node<value_type> *ptr) : _ptr(ptr) {}
             rb_tree_iterator(rb_iter const &it) : _ptr(it.base()) {}
             
-            node<value_type>    *base() const { return _ptr }
+            node<value_type>    *base() const { return _ptr; }
 
             rb_iter &operator=(rb_iter const &iter) {
                 if (this == &iter)
@@ -36,18 +46,17 @@ namespace   ft {
             pointer     operator->() const { return _ptr->value; }
 
             rb_iter     &operator++() {
-                if (_ptr->right != NULL) {
+                if (_is_not_nil_node(_ptr->right)) {
                     _ptr = _ptr->right;
-                    while (_ptr->left)
+                    while (_is_not_nil_node(_ptr->left))
                         _ptr = _ptr->left;
                 } else {
                     node<value_type>    *new_ptr = _ptr->parent, *tmp = _ptr;
-                    while (new_ptr && new_ptr->right == tmp) {
+                    while (_is_not_nil_node(new_ptr) && new_ptr->right == tmp) {
                         tmp = new_ptr;
                         new_ptr = new_ptr->parent;
                     }
-                    if (new_ptr != NULL)
-                        _ptr = new_ptr;
+                    _ptr = new_ptr;
                 }
                 return *this;
             }
