@@ -81,7 +81,9 @@ namespace   ft {
 
                 while (x != _nil) {
                     y = x;
-                    if (_compare(*z->value, *x->value))
+                    if (*z->value == *x->value)
+                        return;
+                    else if (_compare(*z->value, *x->value))
                         x = x->left;
                     else
                         x = x->right;

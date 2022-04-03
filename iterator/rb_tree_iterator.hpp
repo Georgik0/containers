@@ -68,18 +68,17 @@ namespace   ft {
             }
 
             rb_iter     &operator--() {
-                if (_ptr->left) {
+                if (_is_not_nil_node(_ptr->left)) {
                     _ptr = _ptr->left;
-                    while (_ptr->right)
+                    while (_is_not_nil_node(_ptr->right))
                         _ptr = _ptr->right;
                 } else {
                     node<value_type>    *new_ptr = _ptr->parent, *tmp = _ptr;
-                    while (new_ptr && new_ptr->left == tmp) {
+                    while (_is_not_nil_node(new_ptr) && new_ptr->left == tmp) {
                         tmp = new_ptr;
                         new_ptr = new_ptr->parent;
                     }
-                    if (new_ptr != NULL)
-                        _ptr = new_ptr;
+                    _ptr = new_ptr;
                 }
                 return *this;
             }
