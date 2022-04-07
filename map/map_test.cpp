@@ -17,9 +17,10 @@ static void     view_map(ft::map<U, V> &m) {
     
 }
 
-void    map_test() {
-    std::cout << green_bold("\n\nMap test constructors\n\n");
+void    map_test_insert() {
+    std::cout << green_bold("\n\nMap test insert\n\n");
 
+    std::cout << green("#1\n");
     {
         ft::map<int, int>   m;
         int i;
@@ -30,4 +31,55 @@ void    map_test() {
         }
         view_map(m);
     }
+}
+
+void    map_test_get_value() {
+    std::cout << green_bold("\n\nMap test []\n\n");
+
+    std::cout << green("#1\n");
+    {
+        ft::map<int, int>   m;
+        int i, val;
+
+        for (i = 0; i <= 10; i++) {
+            ft::pair<int, int>    p(i, i);
+            val = m[i];
+            std::cout << val << " ";
+        }
+        std::cout << std::endl;
+        view_map(m);
+    }
+
+    std::cout << green("#2\n");
+    {
+        ft::map<int, int>   m;
+        int i;
+
+        m[5] = 5;
+        m[1] = 1;
+        m[1] = 1;
+        m[5] = 5;
+        m[5] = 5;
+
+        view_map(m);
+    }
+
+    std::cout << green("#3\n");
+    {
+        ft::map<int, int>   m;
+        int i, val;
+
+        for (i = 0; i <= 10; i++) {
+            ft::pair<int, int>    p(i, i);
+            m[i] = i;
+            std::cout << m[i] << " ";
+        }
+        std::cout << std::endl;
+        view_map(m);
+    }
+}
+
+void    map_test() {
+    map_test_get_value();
+    map_test_insert();
 }

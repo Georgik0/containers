@@ -141,7 +141,7 @@ namespace   ft {
                     _root = n;
                     return make_pair(begin(), true);
                 }
-                _rb_insert(n);
+                _rb_insert(n, &n);
                 return make_pair(iterator(n), true);
             }
 
@@ -224,17 +224,17 @@ namespace   ft {
                 y->parent = x;
             }
 
-            void    _rb_insert(node<value_type> *z) {
+            void    _rb_insert(node<value_type> *z, node<value_type> **ptr_z) {
                 node<value_type>    *y = _nil, *x = _root;
 
                 while (x != _nil) {
                     y = x;
-                    if (*z->value == *x->value) {
+                    if (!_compare(*z->value, *x->value) && !_compare(*x->value, *z->value)) {
                         _alloc.destroy(z->value);
                         _alloc.deallocate(z->value, 1);
                         _node_alloc.destroy(z);
                         _node_alloc.deallocate(z, 1);
-                        *z = *x;
+                        *ptr_z = x;
                         return;
                     }
                     else if (_compare(*z->value, *x->value))

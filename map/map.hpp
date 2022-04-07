@@ -84,7 +84,10 @@ namespace   ft {
         iterator    insert(iterator hint, const_reference value) { return _tree.insert(value).v1; }
 
         mapped_type &operator[](const key_type &key) {
-            // value_type  p = make_pair()
+            value_type  p = ft::make_pair(key, mapped_type());
+            ft::pair<iterator, bool>  result = insert(p);
+
+            return (*result.v1).v2;
         }
     };
 }
