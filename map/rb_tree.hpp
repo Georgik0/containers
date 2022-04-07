@@ -57,8 +57,8 @@ namespace   ft {
                 _node_alloc.deallocate(_nil, 1);
             }
 
-            rb_tree(rb_tree const &copy) :
-                    _compare(copy._compare), _alloc(copy._alloc), _node_alloc(copy._node_alloc), _size(copy._size) {
+            rb_tree(const rb_tree &copy) :
+                    _compare(copy._compare), _alloc(copy._alloc), _node_alloc(copy._node_alloc), _size(0) {
                 _nil = _node_alloc.allocate(1);
                 _node_alloc.construct(_nil, node<value_type>(NULL));
                 _root = _nil;
@@ -115,10 +115,10 @@ namespace   ft {
             const_reverse_iterator  rbegin() const { return const_reverse_iterator(begin()); }
             const_reverse_iterator  rend() const { return const_reverse_iterator(end()); }
 
-            bool    empty() { return _size == 0; }
-            size_type    size() { return _size; }
+            bool    empty() const { return _size == 0; }
+            size_type    size() const { return _size; }
 
-            size_type   max_size() {
+            size_type   max_size() const {
                 size_type   max_alloc = _alloc.max_size(), max_node_alloc = _node_alloc.max_size();
                 if (max_alloc > max_node_alloc)
                     return max_node_alloc;
@@ -159,6 +159,8 @@ namespace   ft {
                 _rb_delete(search);
             }
 
+            void    clear() { _clear(_root); }
+
         private:
             node<value_type>    *find_element(const_reference value) {
                 node<value_type>    *tmp = _root;
@@ -174,7 +176,8 @@ namespace   ft {
             }
 
             void    _clear(node<value_type> *n) {
-                if (n == NULL)
+                _size = 0;
+                if (n == _nil)
                     return;
                 _clear(n->left);
                 _clear(n->right);
@@ -231,6 +234,7 @@ namespace   ft {
                         _alloc.deallocate(z->value, 1);
                         _node_alloc.destroy(z);
                         _node_alloc.deallocate(z, 1);
+                        *z = *x;
                         return;
                     }
                     else if (_compare(*z->value, *x->value))
@@ -249,6 +253,7 @@ namespace   ft {
                 z->right = _nil;
                 z->color = RED;
                 _rb_insert_fixup(z);
+                _size++;
             }
 
             void    _rb_insert_fixup(node<value_type> *z) {

@@ -190,3 +190,11 @@ void    rb_tree_delete_test() {
         std::cout << std::endl;
     }
 }
+
+void    rb_tree_construct_test() {
+
+    {
+        ft::rb_tree<ft::pair<const int, int> >  tr;
+
+    }
+}
