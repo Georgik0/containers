@@ -63,6 +63,13 @@ namespace   ft {
             _tree = m._tree;
         }
 
+        mapped_type &operator[](const key_type &key) {
+            value_type  p = ft::make_pair(key, mapped_type());
+            ft::pair<iterator, bool>  result = insert(p);
+
+            return (*result.v1).v2;
+        }
+
         iterator    begin() { return _tree.begin(); }
         iterator    end() { return _tree.end(); }
 
@@ -82,13 +89,11 @@ namespace   ft {
         void    clear() { _tree.clear(); }
         ft::pair<iterator, bool>    insert(const_reference value) { return _tree.insert(value); }
         iterator    insert(iterator hint, const_reference value) { return _tree.insert(value).v1; }
+        template<class InputIt>
+        void    insert(InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0) { _tree.insert(first, last); }
 
-        mapped_type &operator[](const key_type &key) {
-            value_type  p = ft::make_pair(key, mapped_type());
-            ft::pair<iterator, bool>  result = insert(p);
+        void    erase(iterator pos) { _tree.erase(pos); }
 
-            return (*result.v1).v2;
-        }
     };
 }
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "map.hpp"
+#include "../vector/vector.hpp"
 
 #define green_bold(X) "\x1b[1;32m" + std::string(X) + "\x1b[0m"
 #define green(X) "\x1b[0;32m" + std::string(X) + "\x1b[0m"
@@ -31,6 +32,20 @@ void    map_test_insert() {
         }
         view_map(m);
     }
+
+    {
+        std::cout << green("#2\n");
+        ft::vector<int>     v;
+        int i;
+        for (i = 10; i >= 0; i--) {
+            v.push_back(i);
+        }
+
+        ft::map<int, int>   m;
+        m.insert(v.begin(), v.end());
+        view_map(m);
+    }
+    
 }
 
 void    map_test_get_value() {
