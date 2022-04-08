@@ -159,6 +159,10 @@ namespace   ft {
                 _rb_delete(search);
             }
 
+            void    erase(iterator it) {
+                erase(*it);
+            }
+
             void    clear() { _clear(_root); }
 
         private:

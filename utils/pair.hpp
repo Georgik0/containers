@@ -38,7 +38,7 @@ namespace   ft {
     
     template <class T1, class T2>
     bool operator<(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs) {
-        return lhs.v1 < rhs.v1 || lhs.v1 == rhs.v1 && lhs.v1 < rhs.v2;
+        return lhs.v1 < rhs.v1 || (lhs.v1 == rhs.v1 && lhs.v1 < rhs.v2);
     }
 
     template <class T1, class T2>

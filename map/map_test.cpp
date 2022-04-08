@@ -1,6 +1,7 @@
 #include <iostream>
 #include "map.hpp"
 #include "../vector/vector.hpp"
+#include <map>
 
 #define green_bold(X) "\x1b[1;32m" + std::string(X) + "\x1b[0m"
 #define green(X) "\x1b[0;32m" + std::string(X) + "\x1b[0m"
@@ -16,6 +17,19 @@ static void     view_map(ft::map<U, V> &m) {
     std::cout << "      map size = " << m.size() << std::endl;
     std::cout << std::endl;
     
+}
+
+template<class U, class V>
+static void     view_map_std(std::map<U, V> &m) {
+    typename std::map<U, V>::iterator        it = m.begin();
+    typename std::map<U, V>::iterator        it_end = m.end();
+
+    for (; it != it_end; it++) {
+        std::cout << (*it).first << " ";
+    }
+    std::cout << "      map size = " << m.size() << std::endl;
+    std::cout << std::endl;
+
 }
 
 void    map_test_insert() {
@@ -94,7 +108,21 @@ void    map_test_get_value() {
     }
 }
 
+void    map_test_erase() {
+    std::map<int, int>  m;
+    for (int i = 0; i < 10; ++i) {
+        m[i] = i;
+        m[i] = i;
+        m[i] = i;
+    }
+
+    size_t  s = m.erase(4);
+    std::cout << "s = " << s << std::endl;
+    view_map_std(m);
+}
+
 void    map_test() {
-    map_test_get_value();
-    map_test_insert();
+//    map_test_get_value();
+//    map_test_insert();
+    map_test_erase();
 }
