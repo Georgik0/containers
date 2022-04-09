@@ -109,16 +109,38 @@ void    map_test_get_value() {
 }
 
 void    map_test_erase() {
-    std::map<int, int>  m;
-    for (int i = 0; i < 10; ++i) {
-        m[i] = i;
-        m[i] = i;
-        m[i] = i;
+    std::cout << green_bold("\n\nMap test erase\n\n");
+
+    {
+        std::cout << green("#1\n");
+        ft::map<int, int>  m;
+        for (int i = 0; i < 10; ++i) {
+            m[i] = 10 - i;
+        }
+        for (int i = 0; i < 10; i++) {
+            std::cout << "m[" << i << "] = " << m[i] << "   ";
+        }
+        
+
+        size_t  sresult_erase = m.erase(4); std::cout << std::endl;
+        for (int i = 0; i < 10; i++) {
+            std::cout << "m[" << i << "] = " << m[i] << "   ";
+        }
+        std::cout << "result erase(4) = " << sresult_erase << std::endl;
+        view_map(m);
     }
 
-    size_t  s = m.erase(4);
-    std::cout << "s = " << s << std::endl;
-    view_map_std(m);
+    {
+        std::cout << green("#2\n");
+        ft::map<int, int>  m;
+        for (int i = 0; i < 10; ++i) {
+            m[i] = i;
+        }
+
+        size_t  sresult_erase = m.erase(4);
+        std::cout << "result erase(4) = " << sresult_erase << std::endl;
+        view_map(m);
+    }
 }
 
 void    map_test() {

@@ -152,16 +152,19 @@ namespace   ft {
                     insert(const_reference(*first));
             }
 
-            void    erase(const_reference value) {
+            size_type    erase(const_reference value) {
                 node<value_type> *search = find_element(value);
                 if (search == _nil)
-                    return;
+                    return 0;
                 _rb_delete(search);
+                return 1;
+            }
+            void    erase(iterator it) { erase(*it); }
+            void    erase(iterator first, iterator last) {
+                while (first <= last)
+                    erase(*first++);
             }
 
-            void    erase(iterator it) {
-                erase(*it);
-            }
 
             void    clear() { _clear(_root); }
 
@@ -169,9 +172,9 @@ namespace   ft {
             node<value_type>    *find_element(const_reference value) {
                 node<value_type>    *tmp = _root;
                 while (tmp != _nil) {
-                    if (value == *(tmp->value))
+                    if (!_compare(value, *(tmp->value)) && !_compare(*(tmp->value), value)) // value == *(tmp->value)
                         return tmp;
-                    if (value > *(tmp->value))
+                    if (_compare(*(tmp->value), value)) // value > *(tmp->value)
                         tmp = tmp->right;
                     else
                         tmp = tmp->left;
@@ -334,6 +337,7 @@ namespace   ft {
                 _alloc.deallocate(z->value, 1);
                 _node_alloc.destroy(z);
                 _node_alloc.deallocate(z, 1);
+                _size--;
             }
 
             node<value_type>    *_tree_minimum(node<value_type> *z) {

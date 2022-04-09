@@ -93,8 +93,8 @@ namespace   ft {
         void    insert(InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0) { _tree.insert(first, last); }
 
         void    erase(iterator pos) { _tree.erase(pos); }
-
-
+        size_type   erase(const key_type &key) { return _tree.erase( ft::make_pair(key, mapped_type()) ); }
+        void    erase(iterator first, iterator last) { _tree.erase(first, last); }
 
     };
 }
