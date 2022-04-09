@@ -141,10 +141,79 @@ void    map_test_erase() {
         std::cout << "result erase(4) = " << sresult_erase << std::endl;
         view_map(m);
     }
+
+    {
+        std::cout << green("#3\n");
+        ft::map<int, int>  m;
+        for (int i = 0; i < 10; ++i) {
+            m[i] = i;
+        }
+
+        ft::map<int, int>::iterator first = m.begin(), last = first;
+        int i = 0;
+        while (i++ < 5)
+            last++;
+        m.erase(first, last);
+        view_map(m);
+    }
+}
+
+void    map_test_operation() {
+    std::cout << green_bold("\n\nMap test find\n\n");
+
+    {
+        std::cout << green("#1\n");
+        ft::map<int, int>  m;
+        for (int i = 0; i < 10; ++i) {
+            m[i] = 10 - i;
+        }
+
+        ft::map<int, int>::iterator it = m.find(2);
+        if (it != m.end())
+            std::cout << "it = m.find(2); *it = " << (*it).v2 << std::endl;
+        else
+            std::cout << "not found" << std::endl;
+        for (int i = 0; i < 10; i++) {
+            std::cout << "m[" << i << "] = " << m[i] << "   ";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << green_bold("\n\nMap test count\n\n");
+    {
+        std::cout << green("#1\n");
+        ft::map<int, int>  m;
+        for (int i = 0; i < 10; ++i) {
+            m[i] = 10 - i;
+        }
+
+        ft::map<int, int>::size_type c = m.count(2);
+        std::cout << "m.count(2) = " << c << std::endl;
+        for (int i = 0; i < 10; i++) {
+            std::cout << "m[" << i << "] = " << m[i] << "   ";
+        }
+        std::cout << std::endl;
+    }
+
+    {
+        std::cout << green("#2\n");
+        ft::map<int, int>  m;
+        for (int i = 0; i < 10; ++i) {
+            m[i] = 10 - i;
+        }
+
+        ft::map<int, int>::size_type c = m.count(2222);
+        std::cout << "m.count(2222) = " << c << std::endl;
+        for (int i = 0; i < 10; i++) {
+            std::cout << "m[" << i << "] = " << m[i] << "   ";
+        }
+        std::cout << std::endl;
+    }
 }
 
 void    map_test() {
-//    map_test_get_value();
-//    map_test_insert();
+    map_test_get_value();
+    map_test_insert();
     map_test_erase();
+    map_test_operation();
 }

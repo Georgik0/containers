@@ -161,15 +161,32 @@ namespace   ft {
             }
             void    erase(iterator it) { erase(*it); }
             void    erase(iterator first, iterator last) {
-                while (first <= last)
+                while (first != last)
                     erase(*first++);
             }
 
 
             void    clear() { _clear(_root); }
 
+            void    swap(rb_tree &rb) {
+                std::swap(_compare, rb._compare);
+                std::swap(_alloc, rb._alloc);
+                std::swap(_node_alloc, rb._node_alloc);
+                std::swap(_root, rb._root);
+                std::swap(_nil, rb._nil);
+                std::swap(_size, rb._size);
+            }
+
+            size_type   count(const_reference value) const {
+                if (find_element(value) != _nil)
+                    return 1;
+                return 0;
+            }
+            
+            iterator    find(const_reference value) { return iterator(find_element(value)); }
+
         private:
-            node<value_type>    *find_element(const_reference value) {
+            node<value_type>    *find_element(const_reference value) const {
                 node<value_type>    *tmp = _root;
                 while (tmp != _nil) {
                     if (!_compare(value, *(tmp->value)) && !_compare(*(tmp->value), value)) // value == *(tmp->value)

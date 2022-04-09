@@ -87,6 +87,7 @@ namespace   ft {
         size_type   max_size() const { return _tree.max_size(); }
 
         void    clear() { _tree.clear(); }
+
         ft::pair<iterator, bool>    insert(const_reference value) { return _tree.insert(value); }
         iterator    insert(iterator hint, const_reference value) { return _tree.insert(value).v1; }
         template<class InputIt>
@@ -95,6 +96,17 @@ namespace   ft {
         void    erase(iterator pos) { _tree.erase(pos); }
         size_type   erase(const key_type &key) { return _tree.erase( ft::make_pair(key, mapped_type()) ); }
         void    erase(iterator first, iterator last) { _tree.erase(first, last); }
+
+        void    swap(map &m) { _tree.swap(m._tree); }
+
+        compare_type    key_comp() const { return compare_type(); }
+        value_compare   value_comp() const { return value_compare(compare_type()); }
+
+        size_type count(const Key& key) const { return _tree.count(make_pair(key, mapped_type())); }
+
+        iterator find(const Key& key) { return _tree.find(make_pair(key, mapped_type())); }
+        const_iterator find(const Key& key) const { return _tree.find(make_pair(key, mapped_type())); }
+
 
     };
 }
