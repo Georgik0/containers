@@ -209,6 +209,34 @@ void    map_test_operation() {
         }
         std::cout << std::endl;
     }
+
+    std::cout << green_bold("\n\nMap test equal_range\n\n");
+    {
+        ft::map<int, int>  m;
+        for (int i = 0; i < 10; ++i) {
+            m[i] = i;
+        }
+
+        std::cout << green("#1\n");
+        typedef ft::map<int, int>::iterator     iter_map;
+        ft::pair<iter_map, iter_map>  p = m.equal_range(1);
+        std::cout << "(*p.v1).v1 (*p.v1).v2: " << (*p.v1).v1 << "   " << (*p.v1).v2 << std::endl; 
+        std::cout << "(*p.v2).v1 (*p.v2).v2: " << (*p.v2).v1 << "   " << (*p.v2).v2 << std::endl;
+        for (iter_map q = p.v1; q != p.v2; ++q) {
+            std::cout << "m[" << q->v1 << "] = " << q->v2 << '\n';
+        }
+        
+        std::cout << green("#2\n");
+        p = m.equal_range(9);
+        std::cout << "(*p.v1).v1 (*p.v1).v2: " << (*p.v1).v1 << "   " << (*p.v1).v2 << std::endl; 
+        if (p.v2 == m.end())
+            std::cout << "p.v2 == m.end()" << std::endl;
+        else
+            std::cout << "(*p.v2).v1 (*p.v2).v2: " << (*p.v2).v1 << "   " << (*p.v2).v2 << std::endl;
+        for (iter_map q = p.v1; q != p.v2; ++q) {
+            std::cout << "m[" << q->v1 << "] = " << q->v2 << '\n';
+        }
+    }
 }
 
 void    map_test() {

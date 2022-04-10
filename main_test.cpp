@@ -6,13 +6,15 @@ void rb_tree_insert_test();
 void rb_tree_delete_test();
 void rb_tree_construct_test();
 void map_test();
+void test_set();
 
 int main() {
-    // reverse_iterator_test();
-    // vector_test();
-    // rb_tree_insert_test();
-    // rb_tree_delete_test();
+    reverse_iterator_test();
+    vector_test();
+    rb_tree_insert_test();
+    rb_tree_delete_test();
     rb_tree_construct_test();
     map_test();
+    test_set();
     // pause();
 }

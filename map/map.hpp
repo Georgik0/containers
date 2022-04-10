@@ -107,7 +107,14 @@ namespace   ft {
         iterator find(const Key& key) { return _tree.find(make_pair(key, mapped_type())); }
         const_iterator find(const Key& key) const { return _tree.find(make_pair(key, mapped_type())); }
 
+        iterator upper_bound(const key_type& key) { return _tree.upper_bound(make_pair(key, mapped_type())); }
+        const_iterator upper_bound(const key_type& key) const { return _tree.upper_bound(make_pair(key, mapped_type())); }
 
+        iterator lower_bound(const Key& key) { return _tree.lower_bound(make_pair(key, mapped_type())); }
+        const_iterator lower_bound(const Key& key) const { return _tree.lower_bound(make_pair(key, mapped_type())); }
+
+        pair<iterator, iterator> equal_range(const Key& key) { return _tree.equal_range(make_pair(key, mapped_type())); }
+        pair<const_iterator, const_iterator> equal_range(const Key& key) const { return _tree.equal_range(make_pair(key, mapped_type())); }
     };
 }
 

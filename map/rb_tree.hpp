@@ -153,7 +153,7 @@ namespace   ft {
             }
 
             size_type    erase(const_reference value) {
-                node<value_type> *search = find_element(value);
+                node<value_type> *search = _find_element(value);
                 if (search == _nil)
                     return 0;
                 _rb_delete(search);
@@ -178,15 +178,53 @@ namespace   ft {
             }
 
             size_type   count(const_reference value) const {
-                if (find_element(value) != _nil)
+                if (_find_element(value) != _nil)
                     return 1;
                 return 0;
             }
             
-            iterator    find(const_reference value) { return iterator(find_element(value)); }
+            iterator    find(const_reference value) { return iterator(_find_element(value)); }
+
+            iterator    lower_bound(const_reference key) {
+                iterator    it = begin(), it_end = end();
+                while (it != it_end) {
+                    if (!_compare(*it, key)) // *it >= key
+                        return it;
+                    it++;
+                }
+                return end();
+            }
+
+            iterator    upper_bound(const_reference key) {
+                iterator    it = begin(), it_end = end();
+                while (it != it_end) {
+                    if (_compare(key, *it)) // *it > key
+                        return it;
+                    it++;
+                }
+                return end();
+            }
+
+            pair<iterator, iterator>    equal_range(const_reference key) {
+                iterator    lower = lower_bound(key), upper = upper_bound(key);
+                if (lower == end() && upper == end())
+                    return make_pair(begin(), begin());
+                return make_pair(lower, upper);
+            }
 
         private:
-            node<value_type>    *find_element(const_reference value) const {
+            // node<value_type>    *_lower_bound(const_reference key) {
+            //     node<value_type>    *tmp = _root;
+            //     while (tmp != _nil) {
+            //         if (!_compare(*tmp->value, key) && !_compare(key, *tmp->value)) { //tmp->value == key
+                        
+            //         }
+                    
+            //     }
+                
+            // }
+
+            node<value_type>    *_find_element(const_reference value) const {
                 node<value_type>    *tmp = _root;
                 while (tmp != _nil) {
                     if (!_compare(value, *(tmp->value)) && !_compare(*(tmp->value), value)) // value == *(tmp->value)
