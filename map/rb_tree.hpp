@@ -109,11 +109,21 @@ namespace   ft {
             }
             const_iterator  end() const { return const_iterator(_nil); }
 
-            reverse_iterator    rbegin() { return reverse_iterator(begin()); }
-            reverse_iterator    rend() { return reverse_iterator(end()); }
+            reverse_iterator    rbegin() {
+                node<value_type>    *tmp = _root;
+                while (tmp->right != _nil)
+                    tmp = tmp->right;
+                return reverse_iterator(iterator(tmp));
+            }
+            reverse_iterator    rend() { return reverse_iterator(iterator(_nil)); }
 
-            const_reverse_iterator  rbegin() const { return const_reverse_iterator(begin()); }
-            const_reverse_iterator  rend() const { return const_reverse_iterator(end()); }
+            const_reverse_iterator  rbegin() const {
+                node<value_type>    *tmp = _root;
+                while (tmp->right != _nil)
+                    tmp = tmp->right;
+                return reverse_iterator(const_iterator(tmp));
+            }
+            const_reverse_iterator  rend() const { return const_reverse_iterator(const_iterator(_nil)); }
 
             bool    empty() const { return _size == 0; }
             size_type    size() const { return _size; }
@@ -213,16 +223,6 @@ namespace   ft {
             }
 
         private:
-            // node<value_type>    *_lower_bound(const_reference key) {
-            //     node<value_type>    *tmp = _root;
-            //     while (tmp != _nil) {
-            //         if (!_compare(*tmp->value, key) && !_compare(key, *tmp->value)) { //tmp->value == key
-                        
-            //         }
-                    
-            //     }
-                
-            // }
 
             node<value_type>    *_find_element(const_reference value) const {
                 node<value_type>    *tmp = _root;

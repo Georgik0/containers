@@ -58,9 +58,9 @@ namespace ft
         }
 
         iter_type operator++(int) {
-            iter_type tmp = *this;
+            reverse_iterator tmp = *this;
             --value_it;
-            return tmp;
+            return tmp.value_it;
         }
 
         iter_type &operator+=(difference_type N) {

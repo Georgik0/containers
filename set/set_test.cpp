@@ -1,4 +1,5 @@
 #include "set.hpp"
+#include <set>
 
 #define green_bold(X) "\x1b[1;32m" + std::string(X) + "\x1b[0m"
 #define green(X) "\x1b[0;32m" + std::string(X) + "\x1b[0m"
@@ -10,6 +11,8 @@ void    info_set(version::set<T> &s) {
     typename version::set<T>::iterator   it = s.begin(), it_end = s.end();
 
     std::cout << "size = " << s.size() << std::endl;
+    std::cout << "empty = " << s.empty() << std::endl;
+    std::cout << "max_size = " << s.max_size() << std::endl;
     if (it == it_end)
         std::cout << "begin == end" << std::endl;
     while (it != it_end) {
@@ -27,21 +30,41 @@ void    test_set() {
         
         version::set<int>  s;
         info_set(s);
+    }
 
-
-        // for (int i = 0; i < 10; ++i) {
-        //     m[i] = 10 - i;
-        // }
-        // for (int i = 0; i < 10; i++) {
-        //     std::cout << "m[" << i << "] = " << m[i] << "   ";
-        // }
+    std::cout << green_bold("\n\nSet test erase, insert\n\n");
+    {
+        std::cout << green("#1\n");
         
+        version::set<int>  s;
+        int i = 0;
+        for (int i = 0; i < 10; i++) {
+            s.insert(i);
+        }
+        info_set(s);
 
-        // size_t  sresult_erase = m.erase(4); std::cout << std::endl;
-        // for (int i = 0; i < 10; i++) {
-        //     std::cout << "m[" << i << "] = " << m[i] << "   ";
-        // }
-        // std::cout << "result erase(4) = " << sresult_erase << std::endl;
-        // view_map(m);
+        for (int i = 4; i < 8; i++) {
+            s.erase(i);
+        }
+        info_set(s);
+    }
+
+    std::cout << green_bold("\n\nSet test iterators\n\n");
+    {
+        std::cout << green("#1\n");
+        
+        version::set<int>  s;
+        int i = 0;
+        for (int i = 0; i < 10; i++) {
+            s.insert(i);
+        }
+        info_set(s);
+
+        version::set<int>::reverse_iterator     rit = s.rbegin(), rit_end = s.rend();
+        while (rit != rit_end) {
+            rit++;
+            std::cout << *rit << " ";
+        }
+        
     }
 }
