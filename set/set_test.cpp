@@ -1,10 +1,11 @@
 #include "set.hpp"
 #include <set>
+#include "../name_container.hpp"
 
 #define green_bold(X) "\x1b[1;32m" + std::string(X) + "\x1b[0m"
 #define green(X) "\x1b[0;32m" + std::string(X) + "\x1b[0m"
 
-#define version     ft
+// #define version     ft
 
 template <class T>
 void    info_set(version::set<T> &s) {
@@ -62,8 +63,8 @@ void    test_set() {
 
         version::set<int>::reverse_iterator     rit = s.rbegin(), rit_end = s.rend();
         while (rit != rit_end) {
-            rit++;
             std::cout << *rit << " ";
+            rit++;
         }
         
     }

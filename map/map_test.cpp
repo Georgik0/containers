@@ -2,34 +2,22 @@
 #include "map.hpp"
 #include "../vector/vector.hpp"
 #include <map>
+#include "../name_container.hpp"
 
 #define green_bold(X) "\x1b[1;32m" + std::string(X) + "\x1b[0m"
 #define green(X) "\x1b[0;32m" + std::string(X) + "\x1b[0m"
 
 template<class U, class V>
-static void     view_map(ft::map<U, V> &m) {
-    typename ft::map<U, V>::iterator        it = m.begin();
-    typename ft::map<U, V>::iterator        it_end = m.end();
+static void     view_map(version::map<U, V> &m) {
+    typename version::map<U, V>::iterator        it = m.begin();
+    typename version::map<U, V>::iterator        it_end = m.end();
     
-    for (; it != it_end; it++) {
-        std::cout << (*it).v1 << " ";
-    }
-    std::cout << "      map size = " << m.size() << std::endl;
-    std::cout << std::endl;
-    
-}
-
-template<class U, class V>
-static void     view_map_std(std::map<U, V> &m) {
-    typename std::map<U, V>::iterator        it = m.begin();
-    typename std::map<U, V>::iterator        it_end = m.end();
-
     for (; it != it_end; it++) {
         std::cout << (*it).first << " ";
     }
     std::cout << "      map size = " << m.size() << std::endl;
     std::cout << std::endl;
-
+    
 }
 
 void    map_test_insert() {
@@ -37,11 +25,11 @@ void    map_test_insert() {
 
     std::cout << green("#1\n");
     {
-        ft::map<int, int>   m;
+        version::map<int, int>   m;
         int i;
 
         for (i = 0; i <= 10; i++) {
-            ft::pair<int, int>    p(i, i);
+            version::pair<int, int>    p(i, i);
             m.insert(p);
         }
         view_map(m);
@@ -49,13 +37,13 @@ void    map_test_insert() {
 
     {
         std::cout << green("#2\n");
-        ft::vector<int>     v;
+        version::map<int, int>     v;
         int i;
         for (i = 10; i >= 0; i--) {
-            v.push_back(i);
+            v[i] = i;
         }
 
-        ft::map<int, int>   m;
+        version::map<int, int>   m;
         m.insert(v.begin(), v.end());
         view_map(m);
     }
@@ -67,11 +55,11 @@ void    map_test_get_value() {
 
     std::cout << green("#1\n");
     {
-        ft::map<int, int>   m;
+        version::map<int, int>   m;
         int i, val;
 
         for (i = 0; i <= 10; i++) {
-            ft::pair<int, int>    p(i, i);
+            version::pair<int, int>    p(i, i);
             val = m[i];
             std::cout << val << " ";
         }
@@ -81,7 +69,7 @@ void    map_test_get_value() {
 
     std::cout << green("#2\n");
     {
-        ft::map<int, int>   m;
+        version::map<int, int>   m;
         int i;
 
         m[5] = 5;
@@ -95,11 +83,11 @@ void    map_test_get_value() {
 
     std::cout << green("#3\n");
     {
-        ft::map<int, int>   m;
+        version::map<int, int>   m;
         int i, val;
 
         for (i = 0; i <= 10; i++) {
-            ft::pair<int, int>    p(i, i);
+            version::pair<int, int>    p(i, i);
             m[i] = i;
             std::cout << m[i] << " ";
         }
@@ -113,7 +101,7 @@ void    map_test_erase() {
 
     {
         std::cout << green("#1\n");
-        ft::map<int, int>  m;
+        version::map<int, int>  m;
         for (int i = 0; i < 10; ++i) {
             m[i] = 10 - i;
         }
@@ -132,7 +120,7 @@ void    map_test_erase() {
 
     {
         std::cout << green("#2\n");
-        ft::map<int, int>  m;
+        version::map<int, int>  m;
         for (int i = 0; i < 10; ++i) {
             m[i] = i;
         }
@@ -144,12 +132,12 @@ void    map_test_erase() {
 
     {
         std::cout << green("#3\n");
-        ft::map<int, int>  m;
+        version::map<int, int>  m;
         for (int i = 0; i < 10; ++i) {
             m[i] = i;
         }
 
-        ft::map<int, int>::iterator first = m.begin(), last = first;
+        version::map<int, int>::iterator first = m.begin(), last = first;
         int i = 0;
         while (i++ < 5)
             last++;
@@ -163,14 +151,14 @@ void    map_test_operation() {
 
     {
         std::cout << green("#1\n");
-        ft::map<int, int>  m;
+        version::map<int, int>  m;
         for (int i = 0; i < 10; ++i) {
             m[i] = 10 - i;
         }
 
-        ft::map<int, int>::iterator it = m.find(2);
+        version::map<int, int>::iterator it = m.find(2);
         if (it != m.end())
-            std::cout << "it = m.find(2); *it = " << (*it).v2 << std::endl;
+            std::cout << "it = m.find(2); *it = " << (*it).second << std::endl;
         else
             std::cout << "not found" << std::endl;
         for (int i = 0; i < 10; i++) {
@@ -182,12 +170,12 @@ void    map_test_operation() {
     std::cout << green_bold("\n\nMap test count\n\n");
     {
         std::cout << green("#1\n");
-        ft::map<int, int>  m;
+        version::map<int, int>  m;
         for (int i = 0; i < 10; ++i) {
             m[i] = 10 - i;
         }
 
-        ft::map<int, int>::size_type c = m.count(2);
+        version::map<int, int>::size_type c = m.count(2);
         std::cout << "m.count(2) = " << c << std::endl;
         for (int i = 0; i < 10; i++) {
             std::cout << "m[" << i << "] = " << m[i] << "   ";
@@ -197,12 +185,12 @@ void    map_test_operation() {
 
     {
         std::cout << green("#2\n");
-        ft::map<int, int>  m;
+        version::map<int, int>  m;
         for (int i = 0; i < 10; ++i) {
             m[i] = 10 - i;
         }
 
-        ft::map<int, int>::size_type c = m.count(2222);
+        version::map<int, int>::size_type c = m.count(2222);
         std::cout << "m.count(2222) = " << c << std::endl;
         for (int i = 0; i < 10; i++) {
             std::cout << "m[" << i << "] = " << m[i] << "   ";
@@ -212,29 +200,29 @@ void    map_test_operation() {
 
     std::cout << green_bold("\n\nMap test equal_range\n\n");
     {
-        ft::map<int, int>  m;
+        version::map<int, int>  m;
         for (int i = 0; i < 10; ++i) {
             m[i] = i;
         }
 
         std::cout << green("#1\n");
-        typedef ft::map<int, int>::iterator     iter_map;
-        ft::pair<iter_map, iter_map>  p = m.equal_range(1);
-        std::cout << "(*p.v1).v1 (*p.v1).v2: " << (*p.v1).v1 << "   " << (*p.v1).v2 << std::endl; 
-        std::cout << "(*p.v2).v1 (*p.v2).v2: " << (*p.v2).v1 << "   " << (*p.v2).v2 << std::endl;
-        for (iter_map q = p.v1; q != p.v2; ++q) {
-            std::cout << "m[" << q->v1 << "] = " << q->v2 << '\n';
+        typedef version::map<int, int>::iterator     iter_map;
+        version::pair<iter_map, iter_map>  p = m.equal_range(1);
+        std::cout << "(*p.first).first (*p.first).second: " << (*p.first).first << "   " << (*p.first).second << std::endl; 
+        std::cout << "(*p.second).first (*p.second).second: " << (*p.second).first << "   " << (*p.second).second << std::endl;
+        for (iter_map q = p.first; q != p.second; ++q) {
+            std::cout << "m[" << q->first << "] = " << q->second << '\n';
         }
         
         std::cout << green("#2\n");
         p = m.equal_range(9);
-        std::cout << "(*p.v1).v1 (*p.v1).v2: " << (*p.v1).v1 << "   " << (*p.v1).v2 << std::endl; 
-        if (p.v2 == m.end())
-            std::cout << "p.v2 == m.end()" << std::endl;
+        std::cout << "(*p.first).first (*p.first).second: " << (*p.first).first << "   " << (*p.first).second << std::endl; 
+        if (p.second == m.end())
+            std::cout << "p.second == m.end()" << std::endl;
         else
-            std::cout << "(*p.v2).v1 (*p.v2).v2: " << (*p.v2).v1 << "   " << (*p.v2).v2 << std::endl;
-        for (iter_map q = p.v1; q != p.v2; ++q) {
-            std::cout << "m[" << q->v1 << "] = " << q->v2 << '\n';
+            std::cout << "(*p.second).first (*p.second).second: " << (*p.second).first << "   " << (*p.second).second << std::endl;
+        for (iter_map q = p.first; q != p.second; ++q) {
+            std::cout << "m[" << q->first << "] = " << q->second << '\n';
         }
     }
 }

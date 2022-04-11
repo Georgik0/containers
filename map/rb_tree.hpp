@@ -158,7 +158,7 @@ namespace   ft {
             template<class InputIt>
             void    insert(InputIt first, InputIt last,
                         typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0) {
-                for (; first < last; first++)
+                for (; first != last; first++)
                     insert(const_reference(*first));
             }
 

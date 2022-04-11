@@ -1,6 +1,7 @@
 #include "rb_tree.hpp"
 #include <iostream>
 #include <unistd.h>
+#include "../name_container.hpp"
 
 #define green_bold(X) "\x1b[1;32m" + std::string(X) + "\x1b[0m"
 #define green(X) "\x1b[0;32m" + std::string(X) + "\x1b[0m"

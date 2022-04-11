@@ -26,7 +26,7 @@ namespace   ft {
                     typedef value_type  first_argument_type;
                     typedef value_type  second_argument_type;
                     bool operator()(const value_type &x, const value_type &y) const {
-                        return _comp(x.v1, y.v1);
+                        return _comp(x.first, y.first);
                     }
             };
             rb_tree<value_type, value_compare, allocator_type>                                          _tree;
@@ -67,7 +67,7 @@ namespace   ft {
             value_type  p = ft::make_pair(key, mapped_type());
             ft::pair<iterator, bool>  result = insert(p);
 
-            return (*result.v1).v2;
+            return (*result.first).second;
         }
 
         iterator    begin() { return _tree.begin(); }
@@ -89,7 +89,7 @@ namespace   ft {
         void    clear() { _tree.clear(); }
 
         ft::pair<iterator, bool>    insert(const_reference value) { return _tree.insert(value); }
-        iterator    insert(iterator hint, const_reference value) { return _tree.insert(value).v1; }
+        iterator    insert(iterator hint, const_reference value) { return _tree.insert(value).first; }
         template<class InputIt>
         void    insert(InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0) { _tree.insert(first, last); }
 

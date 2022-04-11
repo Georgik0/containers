@@ -45,7 +45,7 @@ namespace ft
 
         reference operator*() const {
             Iter tmp = value_it;
-            return *--tmp;
+            return *tmp;
         }
 
         pointer operator->() const { return *this; }
