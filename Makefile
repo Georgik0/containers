@@ -1,7 +1,7 @@
 name = containers
 test = test
 
-src_test = main_test.cpp iterator/reverse_iterator_test.cpp vector/vector_test.cpp map/rb_tree_test.cpp map/map_test.cpp set/set_test.cpp
+src_test = main_test.cpp iterator/reverse_iterator_test.cpp vector/vector_test.cpp map/rb_tree_test.cpp map/map_test.cpp set/set_test.cpp crash_test.cpp
 
 objdir = objs
 obj_test = ${src_test:%.cpp=${objdir}/%.o}

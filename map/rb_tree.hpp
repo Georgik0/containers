@@ -149,10 +149,10 @@ namespace   ft {
                 if (_root == _nil) {
                     _size++;
                     _root = n;
-                    return make_pair(begin(), true);
+                    return ft::make_pair(begin(), true);
                 }
                 _rb_insert(n, &n);
-                return make_pair(iterator(n), true);
+                return ft::make_pair(iterator(n), true);
             }
 
             template<class InputIt>
@@ -218,8 +218,8 @@ namespace   ft {
             pair<iterator, iterator>    equal_range(const_reference key) {
                 iterator    lower = lower_bound(key), upper = upper_bound(key);
                 if (lower == end() && upper == end())
-                    return make_pair(begin(), begin());
-                return make_pair(lower, upper);
+                    return ft::make_pair(begin(), begin());
+                return ft::make_pair(lower, upper);
             }
 
         private:
