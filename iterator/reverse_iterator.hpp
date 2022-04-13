@@ -32,7 +32,7 @@ namespace ft
         explicit reverse_iterator(Iter it) : value_it(it) {}
 
         template<class U>
-        reverse_iterator(const reverse_iterator<U> &X) : value_it(X.base()) {}
+        reverse_iterator(const reverse_iterator<U> &X) : value_it((X.base())) {}
 
         template<class U>
         reverse_iterator &operator=(const reverse_iterator<U> &other) {

@@ -5,8 +5,6 @@
 #define green_bold(X) "\x1b[1;32m" + std::string(X) + "\x1b[0m"
 #define green(X) "\x1b[0;32m" + std::string(X) + "\x1b[0m"
 
-// #define version     ft
-
 template <class T>
 void    info_set(version::set<T> &s) {
     typename version::set<T>::iterator   it = s.begin(), it_end = s.end();
@@ -41,7 +39,9 @@ void    test_set() {
         int i = 0;
         for (int i = 0; i < 10; i++) {
             s.insert(i);
+            s.insert(i);
         }
+        s.insert(3); s.insert(5); s.insert(6);
         info_set(s);
 
         for (int i = 4; i < 8; i++) {

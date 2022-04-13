@@ -46,18 +46,18 @@ namespace   ft {
             typedef typename ft::reverse_iterator<iterator>                                             reverse_iterator;
             typedef typename ft::reverse_iterator<const_iterator>                                       const_reverse_iterator;
 
-        explicit    map(const compare_type &comp = compare_type(), const allocator_type &alloc = allocator_type()) : _tree(value_compare(comp), alloc) {}
+        explicit    map(const compare_type &comp = compare_type(), const allocator_type &alloc = allocator_type()) : _tree(rb_tree<value_type, value_compare, allocator_type>(value_compare(comp), alloc)) {}
         
         template<class InputIt>
         map(InputIt first, InputIt last, const compare_type &comp = compare_type(),
             const allocator_type &alloc = allocator_type(),
             typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0) : _tree(first, last, value_compare(comp), alloc) {}
 
-        map(const map &m) : _tree(m._tree.begin(), m._tree.end()) {}
+        map(const map<value_type, value_compare, allocator_type> &m) : _tree(m._tree.begin(), m._tree.end()) {}
 
         ~map() {}
 
-        map &operator=(const map &m) {
+        map<value_type, value_compare, allocator_type> &operator=(const map &m) {
             if (&m == this)
                 return *this;
             _tree = m._tree;

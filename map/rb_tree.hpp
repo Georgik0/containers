@@ -80,7 +80,7 @@ namespace   ft {
             }
 
             template<class InputIt>
-            rb_tree(InputIt first, InputIt last, const compare_type compare = compare_type(),
+            rb_tree(InputIt first, InputIt last, const compare_type &compare = compare_type(),
                 const alloc_type &alloc = alloc_type(), const node_alloc_type &node_alloc = node_alloc_type()) :
                     _compare(compare), _alloc(alloc), _node_alloc(node_alloc), _size(0) {
                 _nil = _node_alloc.allocate(1);

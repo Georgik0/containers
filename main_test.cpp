@@ -10,6 +10,7 @@ void rb_tree_construct_test();
 void map_test();
 void test_set();
 void crash_test();
+void speed_test();
 
 int main() {
 
@@ -23,6 +24,7 @@ int main() {
     map_test();
     test_set();
     crash_test();
+    speed_test();
 
     clock_t end = clock();
     double sec = double(end - start) / CLOCKS_PER_SEC;
