@@ -88,6 +88,8 @@ namespace   ft {
                 --(*this);
                 return  tmp_it;
             }
+
+            operator rb_tree_iterator<Type, const Type*, const Type&>() { return rb_tree_iterator<Type, const Type*, const Type&>(_ptr); }
     };
 
     template<class Type, class Ptr, class Ref>

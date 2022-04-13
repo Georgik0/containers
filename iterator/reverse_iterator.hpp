@@ -87,6 +87,8 @@ namespace ft
         }
 
         RvIter operator-(difference_type N) { return reverse_iterator<Iter>(base() + N); }
+
+        operator reverse_iterator<Iter>() { return reverse_iterator<Iter>(value_it); }
     };
 
     template<class Iterator1, class Iterator2>

@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <time.h>
+#include "crash_test.hpp"
 
 void reverse_iterator_test();
 void vector_test();

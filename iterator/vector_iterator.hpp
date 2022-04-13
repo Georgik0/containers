@@ -48,6 +48,7 @@ namespace ft {
         bool    operator<=(v_iter const &iter) { return _ptr <= iter._ptr; }
         bool    operator>=(v_iter const &iter) { return _ptr >= iter._ptr; }
 
+        operator vector_iterator<Type, const Type*, const Type&>() { return vector_iterator<Type, const Type*, const Type&>(_ptr); }
 
         pointer     base() const { return _ptr; }
 
